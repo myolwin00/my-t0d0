@@ -50,11 +50,11 @@ class Header extends Component {
                     <Typography style={styles.title} variant="h6" color="inherit">
                         TODO List
                     </Typography>
-                    {/*<ClickAwayListener onClickAway={this.menuClose}>*/}
+                    <ClickAwayListener onClickAway={this.menuClose}>
                         <IconButton color="inherit" onClick={this.menuOpen}>
                             <MoreVertIcon/>
                         </IconButton>
-                    {/*</ClickAwayListener>*/}
+                    </ClickAwayListener>
                     <Menu anchorEl={anchorEl}
                           open={this.state.open}>
                         <MenuItem onClick={() => {

@@ -4,6 +4,7 @@ import Header from './Header.js'
 import Done from './Done.js'
 import Todo from './Todo.js'
 import Add from './Add.js'
+import Divider from '@material-ui/core/Divider';
 
 class App extends Component {
 
@@ -24,10 +25,13 @@ class App extends Component {
         return (
             <div>
                 <Header dataSize={todo.length} onClear={this.clear}/>
-                <Add onAdd={this.add}/>
-                <Todo onDone={this.done} tasks={todo} onRemove={this.remove}/>
-                <hr/>
-                <Done onUndo={this.undo} tasks={done} onRemove={this.remove}/>
+                <div>
+                    <Add onAdd={this.add}/>
+                    <Todo onDone={this.done} tasks={todo} onRemove={this.remove}/>
+                    <Divider variant="middle" />
+                    <Done onUndo={this.undo} tasks={done} onRemove={this.remove}/>
+                </div>
+
             </div>
         );
     }
@@ -69,7 +73,6 @@ class App extends Component {
         })
     }
 }
-
 
 
 export default App;
