@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 import Header from './Header.js'
 import Done from './Done.js'
@@ -6,73 +6,36 @@ import Todo from './Todo.js'
 import Add from './Add.js'
 import Divider from '@material-ui/core/Divider';
 
-class App extends Component {
+import { connect } from 'react-redux';
 
-    autoId = 4;
-    state = {
-        tasks: [
-            {id: 1, subject: "Milk", status: 0},
-            {id: 2, subject: "Bread", status: 1},
-            {id: 3, subject: "Apple", status: 0},
-            {id: 4, subject: "Butter", status: 1}
+const App = props => {
 
-        ]
-    };
-
-    render() {
-        let todo = this.state.tasks.filter(task => task.status === 0);
-        let done = this.state.tasks.filter(task => task.status === 1);
-        return (
+    return (
+        <div>
+            <Header dataSize={props.count} onClear={props.clear}/>
             <div>
-                <Header dataSize={todo.length} onClear={this.clear}/>
-                <div>
-                    <Add onAdd={this.add}/>
-                    <Todo onDone={this.done} tasks={todo} onRemove={this.remove}/>
-                    <Divider variant="middle" />
-                    <Done onUndo={this.undo} tasks={done} onRemove={this.remove}/>
-                </div>
-
+                <Add onAdd={props.add}/>
+                <Todo onDone={props.done} tasks={props.tasks} onRemove={props.remove}/>
+                <Divider variant="middle" />
+                <Done onUndo={props.undo} tasks={props.doneTasks} onRemove={props.remove}/>
             </div>
-        );
-    }
 
-    add = (subject) => {
-        let newTask = {
-            id: ++this.autoId,
-            subject: subject,
-            status: 0
-        };
-        this.setState({tasks: [...this.state.tasks, newTask]})
-    };
-
-    remove = (id) => {
-        this.setState({tasks: this.state.tasks.filter(task => task.id !== id)})
-    };
-
-    done = (id) => {
-        this.setState({
-            tasks: this.state.tasks.map(item => {
-                if (item.id === id) item.status = 1;
-                return item;
-            })
-        })
-    };
-
-    undo = (id) => {
-        this.setState({
-            tasks: this.state.tasks.map(item => {
-                if (item.id === id) item.status = 0;
-                return item;
-            })
-        })
-    };
-
-    clear = () => {
-        this.setState({
-            tasks: this.state.tasks.filter(task => task.status === 0)
-        })
-    }
+        </div>
+    );
 }
 
-
-export default App;
+export default connect(state => {
+    return {
+        count: state.filter(item => item.status === 0).length,
+        tasks: state.filter(item => item.status === 0),
+        doneTasks: state.filter(item => item.status === 1)
+    }
+},dispatch => {
+    return {
+        add: subject => dispatch({ type: 'ADD', subject }),
+        remove: id => dispatch({ type: 'DEL', id }),
+        done: id => dispatch({ type: 'DONE', id }),
+        undo: id => dispatch({ type: 'UNDO', id }),
+        clear: () => dispatch({ type: 'CLEAR' })
+    }
+})(App);
