@@ -15,7 +15,7 @@ class Done extends Component {
                         onUndo={this.props.onUndo}
                         onRemove={this.props.onRemove}
                         checked={task.status === 1}
-                        key={task.id}
+                        key={task._id}
                         task={task}/>)}
             </List>
         );

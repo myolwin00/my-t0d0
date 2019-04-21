@@ -22,7 +22,7 @@ class Item extends Component {
                 <ListItemText primary={this.item.subject}/>
                 <ListItemSecondaryAction>
                     <IconButton onClick={() => {
-                        this.props.onRemove(this.item.id);
+                        this.props.onRemove(this.item._id);
                     }}>
                         <DeleteIcon/>
                     </IconButton>
@@ -33,9 +33,9 @@ class Item extends Component {
 
     onCheckChanged = (isChecked) => {
         if (isChecked) {
-            this.props.onUndo(this.item.id);
+            this.props.onUndo(this.item._id);
         } else {
-            this.props.onDone(this.item.id);
+            this.props.onDone(this.item._id);
         }
     }
 }

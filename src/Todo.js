@@ -8,11 +8,12 @@ class Todo extends Component {
     render() {
         return (
             <List>
-                {this.props.tasks.map(task =>
+                {
+                    this.props.tasks.map(task =>
                     <Item
                         onDone={this.props.onDone}
                         onRemove={this.props.onRemove}
-                        key={task.id}
+                        key={task._id}
                         task={task}/>)}
 
             </List>

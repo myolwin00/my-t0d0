@@ -32,10 +32,49 @@ export default connect(state => {
     }
 },dispatch => {
     return {
-        add: subject => dispatch({ type: 'ADD', subject }),
-        remove: id => dispatch({ type: 'DEL', id }),
-        done: id => dispatch({ type: 'DONE', id }),
-        undo: id => dispatch({ type: 'UNDO', id }),
-        clear: () => dispatch({ type: 'CLEAR' })
+        add: subject => {
+            fetch("http://localhost:8000/tasks", {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({subject})
+            }).then(res => res.json()).then(json => {
+                dispatch({type: 'ADD', task: json});
+            });
+        },
+        remove: id => {
+            fetch(`http://localhost:8000/tasks/${id}`, {
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"}
+            }).then(res => {
+                dispatch({ type: 'DEL', id })
+            });
+        },
+        done: id => {
+            fetch(`http://localhost:8000/tasks/${id}`, {
+                method: 'PATCH',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({status: 1})
+            }).then(res => {
+                dispatch({ type: 'DONE', id });
+            });
+        },
+        undo: id => {
+            fetch(`http://localhost:8000/tasks/${id}`, {
+                method: 'PATCH',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({status: 0})
+            }).then(res => {
+                dispatch({ type: 'UNDO', id })
+            });
+        },
+        clear: () => {
+            fetch(`http://localhost:8000/tasks/`, {
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"},
+            
+            }).then(res => {
+                dispatch({ type: 'CLEAR' })
+            });   
+        }
     }
 })(App);
