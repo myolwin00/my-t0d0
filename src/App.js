@@ -33,16 +33,16 @@ export default connect(state => {
 },dispatch => {
     return {
         add: subject => {
-            fetch("http://localhost:8000/tasks", {
+            fetch("https://my-t0d0-api.herokuapp.com/tasks", {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({subject})
-            }).then(res => res.json()).then(json => {
-                dispatch({type: 'ADD', task: json});
-            });
+            })
+            .then(res => res.json())
+            .then(json => dispatch({type: 'ADD', task: json}));
         },
         remove: id => {
-            fetch(`http://localhost:8000/tasks/${id}`, {
+            fetch(`https://my-t0d0-api.herokuapp.com/tasks/${id}`, {
                 method: 'DELETE',
                 headers: {"Content-Type": "application/json"}
             }).then(res => {
@@ -50,7 +50,7 @@ export default connect(state => {
             });
         },
         done: id => {
-            fetch(`http://localhost:8000/tasks/${id}`, {
+            fetch(`https://my-t0d0-api.herokuapp.com/tasks/${id}`, {
                 method: 'PATCH',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({status: 1})
@@ -59,7 +59,7 @@ export default connect(state => {
             });
         },
         undo: id => {
-            fetch(`http://localhost:8000/tasks/${id}`, {
+            fetch(`https://my-t0d0-api.herokuapp.com/tasks/${id}`, {
                 method: 'PATCH',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({status: 0})
@@ -68,7 +68,7 @@ export default connect(state => {
             });
         },
         clear: () => {
-            fetch(`http://localhost:8000/tasks/`, {
+            fetch(`https://my-t0d0-api.herokuapp.com/tasks/`, {
                 method: 'DELETE',
                 headers: {"Content-Type": "application/json"},
             

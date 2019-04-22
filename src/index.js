@@ -27,7 +27,7 @@ const store = createStore((state=[], action) => {
     }
 });
 
-fetch("http://localhost:8000/tasks").then(res =>  {
+fetch("https://my-t0d0-api.herokuapp.com/tasks").then(res =>  {
     return res.json();
 }).then(json => {
     store.dispatch({'type': 'SET', 'tasks': json});
